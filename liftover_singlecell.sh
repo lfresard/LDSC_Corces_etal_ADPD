@@ -1,4 +1,4 @@
-# Transform single cell Atac-seq peaks bed files in form hg38 to hg19 
+# Transform single cell Atac-seq peaks bed files in from hg38 to hg19 
 
 #Idr Optimal Peaks
 atacseq_folder=/users/lfresard/scratch/alzheimers_parkinsons/data/atacseq/kundaje_version/CelltypeSpecificIdrOptimalPeaksBedtoolsMerge
