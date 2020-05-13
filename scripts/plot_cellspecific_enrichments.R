@@ -1,5 +1,4 @@
 library(tidyverse)
-ad_pd = "/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/"
 
 # This is ugly visually, but it makes sure the matching is done correctly
 filenames = c()
@@ -43,7 +42,7 @@ traitnames = c(traitnames, "schizophrenia")
 
 for (cell_type in c("CelltypeSpecificNaiveOverlap", "CelltypeSpecificIdr"))
 {
-	full_filenames = paste0(ad_pd, "/processed_data/ld_score_regression/partition_heritability_merged/", cell_type, "/nodoublets/", filenames)
+	full_filenames = paste0("output/ld_score_regression/partition_heritability_merged/", cell_type, "/nodoublets/", filenames)
 	data_list=lapply(full_filenames, function(x){read.csv(file=x,header=T, sep="\t")})
 
 	data_list_gwas=Map(cbind, data_list, gwas = traitnames)
@@ -59,6 +58,6 @@ for (cell_type in c("CelltypeSpecificNaiveOverlap", "CelltypeSpecificIdr"))
 		scale_size(range=c(2,5), guide = 'none') +
 		geom_point() + coord_flip()+ scale_color_brewer(palette="Set3")+ theme_bw()
 
-	ggsave(paste0(ad_pd, "/processed_data/ld_score_regression/plots/", cell_type , "/results_sc_gwas.pdf"), bigplot,dpi = 300)
+	ggsave(paste0("output/ld_score_regression/plots/", cell_type , "/results_sc_gwas.pdf"), bigplot,dpi = 300)
 }
 
