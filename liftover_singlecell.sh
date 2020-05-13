@@ -1,14 +1,29 @@
 # Transform single cell Atac-seq peaks bed files in from hg38 to hg19 
 
-#Idr Optimal Peaks
-atacseq_folder=$1
-for x in astrocytes doublets excitatory_neurons inhibitory_neurons microglia neurons_unknown nigral_neurons oligodendrocytes opcs ; do
-echo "Processing ${x}"
-liftOver $atacseq_folder/$x.idr.optimal_peak.narrowPeak.gz  \
-hg38ToHg19.over.chain.gz \
-$atacseq_folder/$x.idr.optimal_peak.narrowPeak.hg19.bed \
-$atacseq_folder/$x.idr.optimal_peak.narrowPeak.unmapp.bed 
+export atacseq_idr_folder=$ad_pd/data/kundaje_version/CelltypeSpecificIdrOptimalPeaksBedtoolsMerge/
+export atacseq_overlap_folder=$ad_pd/data/kundaje_version/CelltypeSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/
 
-bgzip $atacseq_folder/$x.idr.optimal_peak.narrowPeak.hg19.bed
-bgzip $atacseq_folder/$x.idr.optimal_peak.narrowPeak.unmapp.bed 
+#Idr Optimal Peaks
+for x in astrocytes doublets excitatory_neurons inhibitory_neurons microglia neurons_unknown dopaminergic_neurons oligodendrocytes opcs ; do
+	echo "Processing ${x}"
+	liftOver $atacseq_idr_folder/$x.idr.optimal_peak.narrowPeak.gz  \
+	$chain_file	\
+	$atacseq_idr_folder/$x.idr.optimal_peak.narrowPeak.hg19.bed \
+	$atacseq_idr_folder/$x.idr.optimal_peak.narrowPeak.unmapp.bed 
+
+	bgzip $atacseq_idr_folder/$x.idr.optimal_peak.narrowPeak.hg19.bed
+	bgzip $atacseq_idr_folder/$x.idr.optimal_peak.narrowPeak.unmapp.bed 
+done
+
+
+# Naive overlap peaks
+for x in astrocytes doublets excitatory_neurons inhibitory_neurons microglia neurons_unknown dopaminergic_neurons oligodendrocytes opcs ; do
+	echo "Processing ${x}"
+	liftOver $atacseq_overlap_folder/$x.overlap.optimal_peak.narrowPeak.gz  \
+	$chain_file	\
+	$atacseq_overlap_folder/$x.overlap.optimal_peak.narrowPeak.hg19.bed \
+	$atacseq_overlap_folder/$x.overlap.optimal_peak.narrowPeak.unmapp.bed 
+
+	bgzip $atacseq_overlap_folder/$x.overlap.optimal_peak.narrowPeak.hg19.bed
+	bgzip $atacseq_overlap_folder/$x.overlap.optimal_peak.narrowPeak.unmapp.bed 
 done

@@ -4,9 +4,7 @@ library(doMC)
 registerDoMC(20)
 library(stringr)
 
-plink_dir='/srv/persistent/bliu2/shared/ldscore/1000G_plinkfiles/'
-
-dir = Sys.getenv('ADPD')
+source("local_paths.R")
 
 read_bim = function(plink_dir){
 	bim_fn_list=list.files(plink_dir,'bim',full.names=TRUE)
@@ -36,35 +34,80 @@ annotate = function(bim,peak,tissues){
 	return(annot)
 }
 
+if (FALSE)
+{
+	#Idr Optimal Peaks no doublets
+	peak_fn = paste0(dir,'data/kundaje_version/CelltypeSpecificIdrOptimalPeaksBedtoolsMerge/allregions.idr.optimal_peak.narrowPeak.nodoublets.hg19.bed')
+	tissues = c('astrocytes',  'excitatory_neurons', 'inhibitory_neurons', 'microglia', 'neurons_unknown', 'dopaminergic_neurons', 'oligodendrocytes', 'opcs')
+	out_dir =  paste0(dir,'/processed_data/ld_score_regression/tissue_specific_snp_annotation/CelltypeSpecificIdrOptimalPeaksBedtoolsMerge/nodoublets/')
+	if (!dir.exists(out_dir)) {dir.create(out_dir)}
 
-#Idr Optimal Peaks no doublets
-peak_fn = paste0(dir,'/data/atacseq/kundaje_version/CelltypeSpecificIdrOptimalPeaksBedtoolsMerge/allregions.idr.optimal_peak.narrowPeak.nodoublets.hg19.bed')
-tissues = c('astrocytes',  'excitatory_neurons', 'inhibitory_neurons', 'microglia', 'neurons_unknown', 'nigral_neurons', 'oligodendrocytes', 'opcs')
-out_dir =  paste0(dir,'/processed_data/ld_score_regression/tissue_specific_snp_annotation/CelltypeSpecificIdrOptimalPeaksBedtoolsMerge/nodoublets/')
-if (!dir.exists(out_dir)) {dir.create(out_dir)}
+	peak = fread(peak_fn,select = 1:4, col.names = c('chr','start','end','tissue'))
+	peak[,chr:=as.integer(str_replace(chr,'chr',''))]
+	bim = read_bim(plink_dir)
 
-peak = fread(peak_fn,select = 1:4, col.names = c('chr','start','end','tissue'))
-peak[,chr:=as.integer(str_replace(chr,'chr',''))]
-bim = read_bim(plink_dir)
+	annot = annotate(bim,peak,tissues)
 
-annot = annotate(bim,peak,tissues)
-
-for (i in 1:22){
-	out = annot[CHR == i]
-	out_fn = sprintf('%s/chr%s.annot',out_dir,i)
-	fwrite(out,out_fn,sep='\t')
+	for (i in 1:22){
+		out = annot[CHR == i]
+		out_fn = sprintf('%s/chr%s.annot',out_dir,i)
+		fwrite(out,out_fn,sep='\t')
+	}
 }
 
 
-
 #Idr Optimal Peaks no doublets separate per tissue
-peak_dir = paste0(dir,'/data/atacseq/kundaje_version/CelltypeSpecificIdrOptimalPeaksBedtoolsMerge/')
-tissues = c('astrocytes',  'excitatory_neurons', 'inhibitory_neurons', 'microglia', 'neurons_unknown', 'nigral_neurons', 'oligodendrocytes', 'opcs')
-out_dir =  paste0(dir,'/processed_data/ld_score_regression/tissue_specific_snp_annotation/CelltypeSpecificIdrOptimalPeaksBedtoolsMerge/nodoublets/')
+peak_dir = paste0(dir,'data/kundaje_version/CelltypeSpecificIdrOptimalPeaksBedtoolsMerge/')
+tissues = c('astrocytes',  'excitatory_neurons', 'inhibitory_neurons', 'microglia', 'neurons_unknown', 'dopaminergic_neurons', 'oligodendrocytes', 'opcs')
+out_dir =  paste0(dir,'/processed_data/ld_score_regression/tissue_specific_snp_annotation/CelltypeSpecificIdr/nodoublets/')
 if (!dir.exists(out_dir)) {dir.create(out_dir)}
 for (i in 1:length(tissues)){
-	peak_fn = paste0(peak_dir, tissues[i],'.CelltypeSpecificPeaks_uniqSetIDR.hg19.bed.gz')
+	peak_fn = paste0(peak_dir, tissues[i],'.idr.optimal_peak.narrowPeak.hg19.bed.gz')
+	peak = fread(peak_fn,select = 1:3, col.names = c('chr','start','end'))
+	peak$tissue = tissues[i]
+	peak[,chr:=as.integer(str_replace(chr,'chr',''))]
+	bim = read_bim(plink_dir)
+
+	annot = annotate(bim,peak,tissues[i])
+
+	for (j in 1:22){
+		out = annot[CHR == j]
+		out_fn = sprintf('%s/%s.chr%s.annot',out_dir,tissues[i],j)
+		fwrite(out,out_fn,sep='\t')
+	}
+}
+
+if (FALSE)
+{
+	# Overlap Peaks no doublets
+	peak_fn = paste0(dir,'data/kundaje_version/CelltypeSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/allregions.overlap.optimal_peak.narrowPeak.hg19.bed')
+	tissues = c('astrocytes',  'excitatory_neurons', 'inhibitory_neurons', 'microglia', 'neurons_unknown', 'dopaminergic_neurons', 'oligodendrocytes', 'opcs')
+	out_dir =  paste0(dir,'/processed_data/ld_score_regression/tissue_specific_snp_annotation/CelltypeSpecificNaiveOverlap/nodoublets/')
+	if (!dir.exists(out_dir)) {dir.create(out_dir)}
+
 	peak = fread(peak_fn,select = 1:4, col.names = c('chr','start','end','tissue'))
+	peak[,chr:=as.integer(str_replace(chr,'chr',''))]
+	bim = read_bim(plink_dir)
+
+	annot = annotate(bim,peak,tissues)
+
+	for (i in 1:22){
+		out = annot[CHR == i]
+		out_fn = sprintf('%s/chr%s.annot',out_dir,i)
+		fwrite(out,out_fn,sep='\t')
+	}
+}
+
+
+# Overlap Peaks no doublets separate per tissue
+peak_dir = paste0(dir,'data/kundaje_version/CelltypeSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/')
+tissues = c('astrocytes',  'excitatory_neurons', 'inhibitory_neurons', 'microglia', 'neurons_unknown', 'dopaminergic_neurons', 'oligodendrocytes', 'opcs')
+out_dir =  paste0(dir,'/processed_data/ld_score_regression/tissue_specific_snp_annotation/CelltypeSpecificNaiveOverlap/nodoublets/')
+if (!dir.exists(out_dir)) {dir.create(out_dir)}
+for (i in 1:length(tissues)){
+	peak_fn = paste0(peak_dir, tissues[i],'.overlap.optimal_peak.narrowPeak.hg19.bed.gz')
+	peak = fread(peak_fn,select = 1:3, col.names = c('chr','start','end'))
+	peak$tissue = tissues[i]
 	peak[,chr:=as.integer(str_replace(chr,'chr',''))]
 	bim = read_bim(plink_dir)
 

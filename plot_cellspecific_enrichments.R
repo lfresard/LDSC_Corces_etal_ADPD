@@ -1,16 +1,64 @@
-res_files=list.files(pattern=".merged.cell_type_results.txt")
-
-data_list=lapply(res_files, function(x){read.csv(file=x,header=T, sep="\t")})
-
-gwas_list=c("adhd", "alzheimers", "anorexia", "anxiety", "bone_density", "cad", "epilepsy", "lean_body_mass","neuroticism", "parkinsons","skizophrenia")
-data_list_gwas=Map(cbind, data_list, gwas = gwas_list)
 library(tidyverse)
+ad_pd = "/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/"
 
-data.df=do.call(rbind,data_list_gwas)
+# This is ugly visually, but it makes sure the matching is done correctly
+filenames = c()
+traitnames = c()
 
-data.df$gwas=factor(data.df$gwas, levels=c("lean_body_mass","cad","bone_density","adhd",  "neuroticism", "anorexia","epilepsy", "skizophrenia","anxiety","parkinsons","alzheimers"))
-bigplot=ggplot(data.df, aes(x=gwas,y=-log10(Coefficient_P_value), color=Name)) +
-	labs(y="-log10(Coefficient P-value)")+
-	geom_point(size=3) + coord_flip()+ scale_color_brewer(palette="Set3")+ theme_bw()
+filenames = c(filenames, "alzheimers_Kunkle.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "alzheimers")
 
-ggsave("resuts_sc_gwas.pdf", bigplot,dpi = 300)
+filenames = c(filenames, "AnorexiaNervosa_Duncan_2017.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "anorexia")
+
+filenames = c(filenames, "Anxiety_Otowa_2016.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "anxiety")
+
+filenames = c(filenames, "Attention_Deficit_2017.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "adhd")
+
+filenames = c(filenames, "Bone_Mineral_Density_Kemp_2017.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "bone-density")
+
+filenames = c(filenames, "Coronary_Artery_Disease_Howson_2017.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "coronary-artery-disease")
+
+filenames = c(filenames, "Epilepsy_Anney_2014.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "epilepsy")
+
+filenames = c(filenames, "Lean_Body_Mass_Zillikens_2017.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "lean-body-mass")
+
+filenames = c(filenames, "Neuroticism_Symptoms_Okbay_2016.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "neuroticism")
+
+filenames = c(filenames, "parkinsons_23andMe.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "parkinsons")
+
+filenames = c(filenames, "schizophrenia_Li2017.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "schizophrenia")
+
+
+
+
+for (cell_type in c("CelltypeSpecificNaiveOverlap", "CelltypeSpecificIdr"))
+{
+	full_filenames = paste0(ad_pd, "/processed_data/ld_score_regression/partition_heritability_merged/", cell_type, "/nodoublets/", filenames)
+	data_list=lapply(full_filenames, function(x){read.csv(file=x,header=T, sep="\t")})
+
+	data_list_gwas=Map(cbind, data_list, gwas = traitnames)
+
+	data.df=do.call(rbind,data_list_gwas)
+
+	data.df$point_size = ifelse(data.df$Coefficient_P_value < 0.05, 3, 1)
+
+	data.df$gwas=factor(data.df$gwas, levels=c("lean-body-mass","coronary-artery-disease","bone-density","adhd",  "neuroticism", "anorexia","epilepsy", "schizophrenia","anxiety","parkinsons","alzheimers"))
+	bigplot=ggplot(data.df, aes(x=gwas,y=-log10(Coefficient_P_value), color=Name, size=point_size)) +
+		labs(y="-log10(Coefficient P-value)")+
+		geom_hline(yintercept=-log10(0.05), linetype="dotted", color="red", size=1) +
+		scale_size(range=c(2,5), guide = 'none') +
+		geom_point() + coord_flip()+ scale_color_brewer(palette="Set3")+ theme_bw()
+
+	ggsave(paste0(ad_pd, "/processed_data/ld_score_regression/plots/", cell_type , "/results_sc_gwas.pdf"), bigplot,dpi = 300)
+}
+
