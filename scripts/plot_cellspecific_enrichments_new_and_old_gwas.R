@@ -37,6 +37,28 @@ traitnames = c(traitnames, "parkinsons")
 filenames = c(filenames, "schizophrenia_Li2017.sumstats.gz.merged.cell_type_results.txt")
 traitnames = c(traitnames, "schizophrenia")
 
+filenames = c(filenames, "Alcohol-Dependence_Sanchez-Roige_2018.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "alcoholism")
+
+filenames = c(filenames, "Autism_Psychiatric-Genomics-Consortium_2017.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "autism")
+
+filenames = c(filenames, "Bipolar-Disorder_Stahl_2019.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "bipolar")
+
+filenames = c(filenames, "Depression_Howard_2019.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "depression")
+
+filenames = c(filenames, "Insomnia_Jansen_2019.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "insomnia")
+
+filenames = c(filenames, "Obsessive-Compulsive-Disorder_Arnold_2017.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "ocd")
+
+filenames = c(filenames, "Post-Traumatic-Stress-Disorder_Duncan_2017.sumstats.gz.merged.cell_type_results.txt")
+traitnames = c(traitnames, "ptsd")
+
+
 
 # Folders containining partitioned heritability results
 ph_folders = c("output/ld_score_regression/partition_heritability_merged/group_frags/idr_peaks/",
@@ -68,7 +90,7 @@ for (i in 1:length(ph_folders))
 
 	data.df$point_size = ifelse(data.df$Coefficient_P_value < 0.05, 3, 1)
 
-	data.df$gwas=factor(data.df$gwas, levels=c("lean-body-mass","coronary-artery-disease","bone-density","adhd",  "neuroticism", "anorexia","epilepsy", "schizophrenia","anxiety","parkinsons","alzheimers"))
+	data.df$gwas=factor(data.df$gwas, levels=c("lean-body-mass","coronary-artery-disease","bone-density","adhd",  "neuroticism", "anorexia","epilepsy", "schizophrenia","anxiety","parkinsons","alzheimers", "alcoholism", "autism", "bipolar", "depression", "insomnia", "ocd", "ptsd"))
 	bigplot=ggplot(data.df, aes(x=gwas,y=-log10(Coefficient_P_value), color=Name, size=point_size)) +
 		labs(y="-log10(Coefficient P-value)")+
 		geom_hline(yintercept=-log10(0.05), linetype="dotted", color="red", size=1) +
@@ -78,9 +100,8 @@ for (i in 1:length(ph_folders))
 		#scale_color_brewer(palette="Set3")+ 
 		theme_bw()
 
-	#ggsave(paste0("output/ld_score_regression/plots/results_sc_gwas_", group, ".pdf"), bigplot,dpi = 300)
-	ggsave(paste0("output/ld_score_regression/plots/results_sc_gwas_", group, ".pdf"), bigplot,dpi = 300, height=6, width=12)
+	#ggsave(paste0("output/ld_score_regression/plots/results_sc_gwas_new_and_old_", group, ".pdf"), bigplot,dpi = 300)
+	ggsave(paste0("output/ld_score_regression/plots/results_sc_gwas_new_and_old_", group, ".pdf"), bigplot,dpi = 300, height=6, width=12)
 
 }
-
 

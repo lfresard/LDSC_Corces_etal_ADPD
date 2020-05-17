@@ -4,6 +4,8 @@ library(doMC)
 registerDoMC(20)
 library(stringr)
 
+plink_dir = "data/1kg-plink-files"
+
 read_bim = function(plink_dir){
 	bim_fn_list=list.files(plink_dir,'bim',full.names=TRUE)
 	bim=foreach(i=seq_along(bim_fn_list),.combine='rbind')%dopar%{
@@ -61,6 +63,92 @@ out_dir =  'output/ld_score_regression/tissue_specific_snp_annotation/CelltypeSp
 if (!dir.exists(out_dir)) {dir.create(out_dir)}
 for (i in 1:length(tissues)){
 	peak_fn = paste0(peak_dir, tissues[i],'.overlap.optimal_peak.narrowPeak.hg19.bed.gz')
+	peak = fread(peak_fn,select = 1:3, col.names = c('chr','start','end'))
+	peak$tissue = tissues[i]
+	peak[,chr:=as.integer(str_replace(chr,'chr',''))]
+	bim = read_bim(plink_dir)
+
+	annot = annotate(bim,peak,tissues[i])
+
+	for (j in 1:22){
+		out = annot[CHR == j]
+		out_fn = sprintf('%s/%s.chr%s.annot',out_dir,tissues[i],j)
+		fwrite(out,out_fn,sep='\t')
+	}
+}
+
+tissues = c('C10', 'C12', 'NeuronC13', 'NeuronC14', 'NeuronC15', 'NeuronC17', 'NeuronC18', 'NeuronC19', 'NeuronC20', 'NeuronC21', 'NeuronC24', 'NeuronC25', 'NeuronC26', 'NeuronC27', 'NeuronC28', 'NeuronC29', 'NeuronC2', 'NeuronC30', 'NeuronC3', 'NeuronC6', 'NeuronC7', 'NeuronC8', 'NeuronC9')
+
+#Idr Optimal Peaks no doublets separate per tissue
+peak_dir = 'data/atac-seq/cluster_frags/idr_peaks/'
+out_dir =  'output/ld_score_regression/tissue_specific_snp_annotation/cluster_frags/idr_peaks/'
+if (!dir.exists(out_dir)) {dir.create(out_dir)}
+for (i in 1:length(tissues)){
+	peak_fn = paste0(peak_dir, tissues[i],'.idr.narrowPeak.hg19.bed.gz')
+	peak = fread(peak_fn,select = 1:3, col.names = c('chr','start','end'))
+	peak$tissue = tissues[i]
+	peak[,chr:=as.integer(str_replace(chr,'chr',''))]
+	bim = read_bim(plink_dir)
+
+	annot = annotate(bim,peak,tissues[i])
+
+	for (j in 1:22){
+		out = annot[CHR == j]
+		out_fn = sprintf('%s/%s.chr%s.annot',out_dir,tissues[i],j)
+		fwrite(out,out_fn,sep='\t')
+	}
+}
+
+
+# Overlap Peaks no doublets separate per tissue
+peak_dir = 'data/atac-seq/cluster_frags/overlap_peaks/'
+out_dir =  'output/ld_score_regression/tissue_specific_snp_annotation/cluster_frags/overlap_peaks/'
+if (!dir.exists(out_dir)) {dir.create(out_dir)}
+for (i in 1:length(tissues)){
+	peak_fn = paste0(peak_dir, tissues[i],'.overlap.narrowPeak.hg19.bed.gz')
+	peak = fread(peak_fn,select = 1:3, col.names = c('chr','start','end'))
+	peak$tissue = tissues[i]
+	peak[,chr:=as.integer(str_replace(chr,'chr',''))]
+	bim = read_bim(plink_dir)
+
+	annot = annotate(bim,peak,tissues[i])
+
+	for (j in 1:22){
+		out = annot[CHR == j]
+		out_fn = sprintf('%s/%s.chr%s.annot',out_dir,tissues[i],j)
+		fwrite(out,out_fn,sep='\t')
+	}
+}
+
+tissues = c('LAMP5_Interneurons', 'Parvalbumin_Interneurons', 'Somatostatin_Interneurons', 'Striatal_Interneurons', 'Striatopallidal_MediumSpinyNeurons', 'vGLUT2neg_ExcitatoryNeurons', 'VIPIP_Interneurons')
+
+#Idr Optimal Peaks no doublets separate per tissue
+peak_dir = 'data/atac-seq/group_frags/idr_peaks/'
+out_dir =  'output/ld_score_regression/tissue_specific_snp_annotation/group_frags/idr_peaks/'
+if (!dir.exists(out_dir)) {dir.create(out_dir)}
+for (i in 1:length(tissues)){
+	peak_fn = paste0(peak_dir, tissues[i],'.idr.narrowPeak.hg19.bed.gz')
+	peak = fread(peak_fn,select = 1:3, col.names = c('chr','start','end'))
+	peak$tissue = tissues[i]
+	peak[,chr:=as.integer(str_replace(chr,'chr',''))]
+	bim = read_bim(plink_dir)
+
+	annot = annotate(bim,peak,tissues[i])
+
+	for (j in 1:22){
+		out = annot[CHR == j]
+		out_fn = sprintf('%s/%s.chr%s.annot',out_dir,tissues[i],j)
+		fwrite(out,out_fn,sep='\t')
+	}
+}
+
+
+# Overlap Peaks no doublets separate per tissue
+peak_dir = 'data/atac-seq/group_frags/overlap_peaks/'
+out_dir =  'output/ld_score_regression/tissue_specific_snp_annotation/group_frags/overlap_peaks/'
+if (!dir.exists(out_dir)) {dir.create(out_dir)}
+for (i in 1:length(tissues)){
+	peak_fn = paste0(peak_dir, tissues[i],'.overlap.narrowPeak.hg19.bed.gz')
 	peak = fread(peak_fn,select = 1:3, col.names = c('chr','start','end'))
 	peak$tissue = tissues[i]
 	peak[,chr:=as.integer(str_replace(chr,'chr',''))]

@@ -1,4 +1,4 @@
-##################################################
+#################################################
 # Run all steps in LDSC regression for cell-type 
 # specific heritability partitioning
 ##################################################
@@ -7,6 +7,9 @@ source scripts/load_local_env.sh
 
 # Munge summary statistics
 bash scripts/gwas_sumstat.sh
+
+# Extract the necessary columns from the ATAC-seq data
+bash scripts/prep_atac_seq.sh
 
 # Lift over ATAC-seq peaks from hg38 to hg19
 bash scripts/liftover_singlecell.sh
