@@ -34,6 +34,13 @@ annotate = function(bim,peak,tissues){
 	return(annot)
 }
 
+
+############################################################
+# Cell type specific annotations,
+# first for IDR peaks and then for naive optimal peak calls
+############################################################
+
+
 tissues = c('astrocytes',  'excitatory_neurons', 'inhibitory_neurons', 'microglia', 'neurons_unknown', 'dopaminergic_neurons', 'oligodendrocytes', 'opcs')
 
 #Idr Optimal Peaks no doublets separate per tissue
@@ -77,8 +84,12 @@ for (i in 1:length(tissues)){
 	}
 }
 
-tissues = c('C10', 'C12', 'NeuronC13', 'NeuronC14', 'NeuronC15', 'NeuronC17', 'NeuronC18', 'NeuronC19', 'NeuronC20', 'NeuronC21', 'NeuronC24', 'NeuronC25', 'NeuronC26', 'NeuronC27', 'NeuronC28', 'NeuronC29', 'NeuronC2', 'NeuronC30', 'NeuronC3', 'NeuronC6', 'NeuronC7', 'NeuronC8', 'NeuronC9')
+############################################################
+# Cell type clustered annotations,
+# first for IDR peaks and then for naive optimal peak calls
+############################################################
 
+tissues = c('C10', 'C11', 'C12', 'NeuronC13', 'NeuronC14', 'NeuronC15', 'NeuronC17', 'NeuronC18', 'NeuronC19', 'NeuronC20', 'NeuronC21', 'NeuronC24', 'NeuronC25', 'NeuronC26', 'NeuronC27', 'NeuronC28', 'NeuronC29', 'NeuronC2', 'NeuronC30', 'NeuronC3', 'NeuronC6', 'NeuronC7', 'NeuronC8', 'NeuronC9')
 #Idr Optimal Peaks no doublets separate per tissue
 peak_dir = 'data/atac-seq/cluster_frags/idr_peaks/'
 out_dir =  'output/ld_score_regression/tissue_specific_snp_annotation/cluster_frags/idr_peaks/'
@@ -120,7 +131,13 @@ for (i in 1:length(tissues)){
 	}
 }
 
-tissues = c('LAMP5_Interneurons', 'Parvalbumin_Interneurons', 'Somatostatin_Interneurons', 'Striatal_Interneurons', 'Striatopallidal_MediumSpinyNeurons', 'vGLUT2neg_ExcitatoryNeurons', 'VIPIP_Interneurons')
+
+############################################################
+# Cell type subgroup annotations,
+# first for IDR peaks and then for naive optimal peak calls
+############################################################
+
+tissues = c('LAMP5_Interneurons', 'Parvalbumin_Interneurons', 'Somatostatin_Interneurons', 'Striatal_Interneurons', 'Striatopallidal_MediumSpinyNeurons', 'vGLUT2neg_ExcitatoryNeurons', 'VIPIP_Interneurons', 'BDNFneg_ExcitatoryNeurons', 'BDNFpos_ExcitatoryNeurons', 'Striatonigral_MediumSpinyNeurons')
 
 #Idr Optimal Peaks no doublets separate per tissue
 peak_dir = 'data/atac-seq/group_frags/idr_peaks/'

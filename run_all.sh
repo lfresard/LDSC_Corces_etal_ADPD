@@ -3,8 +3,6 @@
 # specific heritability partitioning
 ##################################################
 
-source scripts/load_local_env.sh
-
 # Munge summary statistics
 bash scripts/gwas_sumstat.sh
 
@@ -26,3 +24,31 @@ bash scripts/cell_type_spe_regression.sh
 # Plot final enrichments
 Rscript scripts/plot_cellspecific_enrichments.R
 
+
+# Official analysis ends here
+# ---------------------------
+
+
+
+####################################################
+# The above SNPs include all the GWAS in the paper;
+# here we throw in a few of the latest brain GWAS
+####################################################
+
+# Note: You must run the above scripts first, and then 
+# run these additional analyses.
+
+# Munge summary statistics for bonus brain GWAS
+bash scripts/gwas_sumstat.sh
+
+# Perform LD score regression to partition heritability
+# on a few new GWAS
+bash scripts/cell_type_spe_regression_bonus_gwas.sh
+
+# Make heritability enrichment plots like the one in the paper,
+# for additional GWAS only
+Rscript scripts/plot_cellspecific_enrichments_new_gwas.R
+
+# Make the plots for additional GWAS and the ones included in the
+# paper, combined
+Rscript scripts/plot_cellspecific_enrichments_new_and_old_gwas.R

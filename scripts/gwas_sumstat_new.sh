@@ -1,4 +1,6 @@
 # Transforms GWAS summary statistics into right format for LDSC
+# This one includes a few bonus GWAS traits that are quite new
+# and were not included in the main analysis
 
 new_gwas_dir='data/gwas/new-gwas'
 

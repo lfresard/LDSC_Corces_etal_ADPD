@@ -1,0 +1,8 @@
+excitatory_neurons	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificIdr/nodoublets/excitatory_neurons.chr@
+inhibitory_neurons	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificIdr/nodoublets/inhibitory_neurons.chr@
+microglia	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificIdr/nodoublets/microglia.chr@
+oligodendrocytes	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificIdr/nodoublets/oligodendrocytes.chr@
+astrocytes	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificIdr/nodoublets/astrocytes.chr@
+opcs	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificIdr/nodoublets/opcs.chr@
+neurons_unknown /oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificIdr/nodoublets/neurons_unknown.chr@
+dopaminergic_neurons /oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificIdr/nodoublets/dopaminergic_neurons.chr@

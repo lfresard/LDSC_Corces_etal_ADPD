@@ -1,0 +1,8 @@
+excitatory_neurons	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificNaiveOverlap/nodoublets/excitatory_neurons.chr@
+inhibitory_neurons	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificNaiveOverlap/nodoublets/inhibitory_neurons.chr@
+microglia	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificNaiveOverlap/nodoublets/microglia.chr@
+oligodendrocytes	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificNaiveOverlap/nodoublets/oligodendrocytes.chr@
+astrocytes	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificNaiveOverlap/nodoublets/astrocytes.chr@
+opcs	/oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificNaiveOverlap/nodoublets/opcs.chr@
+neurons_unknown /oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificNaiveOverlap/nodoublets/neurons_unknown.chr@
+dopaminergic_neurons /oak/stanford/groups/smontgom/mgloud/projects/ad-pd-ldsc/processed_data/ld_score_regression/ldscore_merged/CelltypeSpecificNaiveOverlap/nodoublets/dopaminergic_neurons.chr@

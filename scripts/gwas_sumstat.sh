@@ -1,4 +1,6 @@
-# Transforms GWAS summary statistics into right format for LDSC
+# Transforms GWAS summary statistics into right format for LDSC.
+# If downloaded from the Zotero website, then this step will be
+# unnecessary.
 
 hapmap_fn='data/munging/hapmap/w_hm3.snplist'
 
