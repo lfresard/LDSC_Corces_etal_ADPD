@@ -41,17 +41,17 @@ traitnames = c(traitnames, "schizophrenia")
 # Folders containining partitioned heritability results
 ph_folders = c("output/ld_score_regression/partition_heritability_merged/group_frags/idr_peaks/",
 	       "output/ld_score_regression/partition_heritability_merged/CelltypeSpecificIdr/nodoublets/",
-	       "output/ld_score_regression/partition_heritability_merged/cluster_frags/idr_peaks/",
-	       "output/ld_score_regression/partition_heritability_merged/group_frags/overlap_peaks/",
-	       "output/ld_score_regression/partition_heritability_merged/cluster_frags/overlap_peaks/",
-	       "output/ld_score_regression/partition_heritability_merged/CelltypeSpecificNaiveOverlap/nodoublets/")
+	       "output/ld_score_regression/partition_heritability_merged/cluster_frags/idr_peaks/")#,
+	       #"output/ld_score_regression/partition_heritability_merged/group_frags/overlap_peaks/",
+	       #"output/ld_score_regression/partition_heritability_merged/cluster_frags/overlap_peaks/",
+	       #"output/ld_score_regression/partition_heritability_merged/CelltypeSpecificNaiveOverlap/nodoublets/")
 
 set_names = c("group_idr",
 	      "original_idr",
-	      "cluster_idr",
-	      "group_overlap",
-	      "cluster_overlap",
-	      "original_overlap")
+	      "cluster_idr")#,
+	      #"group_overlap",
+	      #"cluster_overlap",
+	      #"original_overlap")
 
 for (i in 1:length(ph_folders))
 {
@@ -66,12 +66,15 @@ for (i in 1:length(ph_folders))
 
 	data.df=do.call(rbind,data_list_gwas)
 
-	data.df$point_size = ifelse(data.df$Coefficient_P_value < 0.05, 3, 1)
+	# Perform Bonferroni correction for the number of cell types 
+	data.df$point_size = ifelse(data.df$Coefficient_P_value < 0.05 / length(unique(data.df$Name)), 3, 1)
+
+	write.table(data.df, file=paste0("output/ld_score_regression/plots/results_sc_gwas_", group, "_table.tsv"), sep="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
 
 	data.df$gwas=factor(data.df$gwas, levels=c("lean-body-mass","coronary-artery-disease","bone-density","adhd",  "neuroticism", "anorexia","epilepsy", "schizophrenia","anxiety","parkinsons","alzheimers"))
 	bigplot=ggplot(data.df, aes(x=gwas,y=-log10(Coefficient_P_value), color=Name, size=point_size)) +
 		labs(y="-log10(Coefficient P-value)")+
-		geom_hline(yintercept=-log10(0.05), linetype="dotted", color="red", size=1) +
+		geom_hline(yintercept=-log10(0.05 / length(unique(data.df$Name))), linetype="dotted", color="red", size=1) +
 		scale_size(range=c(2,5), guide = 'none') +
 		geom_point() + coord_flip()+
 		guides(colour = guide_legend(override.aes = list(size=10))) +

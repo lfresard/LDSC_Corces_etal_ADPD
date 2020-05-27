@@ -1,4 +1,5 @@
 C10	output/ld_score_regression/ldscore_merged/cluster_frags/overlap_peaks/C10.chr@
+C11	output/ld_score_regression/ldscore_merged/cluster_frags/overlap_peaks/C11.chr@
 C12	output/ld_score_regression/ldscore_merged/cluster_frags/overlap_peaks/C12.chr@
 NeuronC13	output/ld_score_regression/ldscore_merged/cluster_frags/overlap_peaks/NeuronC13.chr@
 NeuronC14	output/ld_score_regression/ldscore_merged/cluster_frags/overlap_peaks/NeuronC14.chr@
@@ -21,4 +22,3 @@ NeuronC6	output/ld_score_regression/ldscore_merged/cluster_frags/overlap_peaks/N
 NeuronC7	output/ld_score_regression/ldscore_merged/cluster_frags/overlap_peaks/NeuronC7.chr@
 NeuronC8	output/ld_score_regression/ldscore_merged/cluster_frags/overlap_peaks/NeuronC8.chr@
 NeuronC9	output/ld_score_regression/ldscore_merged/cluster_frags/overlap_peaks/NeuronC9.chr@
-

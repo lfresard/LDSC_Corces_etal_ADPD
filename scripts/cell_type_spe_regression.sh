@@ -25,12 +25,16 @@ export bone_density_fn="$sumstats_folder/Bone_Mineral_Density_Kemp_2017.sumstats
 export cad_fn="$sumstats_folder/Coronary_Artery_Disease_Howson_2017.sumstats.gz"
 export epilepsy_fn="$sumstats_folder/Epilepsy_Anney_2014.sumstats.gz"
 
-export out_dir='output/ld_score_regression/partition_heritability_merged/'
+
+# Input data and settings
+export config_dir='config/partition_heritability_merged/'
 export tissue_specific_annotation_dir='output/ld_score_regression/ldscore_merged'
 export weight_dir="data/ld-score-weights"
 export frq_dir="data/1kg-freqs"
 export baseline_annotation_dir='data/ldsc-baseline'
 
+# Output directory
+export out_dir='output/ld_score_regression/partition_heritability_merged/'
 
 cell_type_SPE(){
 mkdir -p $2

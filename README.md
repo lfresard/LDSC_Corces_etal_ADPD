@@ -5,6 +5,9 @@ The full set of analyses for LD Score regression are outlined in the Bash script
 We have used relative paths wherever possible, but you will likely need to swap some of these
 out to reference whatever paths your data are stored in (symlinks usually work well for this purpose).
 
+GWAS data, pre-formatted for the analysis, are available at 
+https://zenodo.org/record/3817811#.XrW9InVKhhE
+
 ---------------------
 
 There are two ways of calling peaks : IDR and naive overlap
@@ -20,6 +23,8 @@ results, we recommend just running the steps for IDR peaks with basic cell-type-
 
 A brief outline of what is done at each step:
 
+### Format GWAS summary statistics for running LDSC regression
+
 `bash scripts/gwas_sumstat.sh`
 
 Summary statistics from the relevant GWAS are munged into a format
@@ -28,36 +33,42 @@ Zotero website, this step won't be necessary because they are already in
 LDSC format (for build hg19).
 
 ### Extract the necessary columns from the ATAC-seq data
-bash scripts/prep_atac_seq.sh
+
+`bash scripts/prep_atac_seq.sh`
 
 Subset ATAC-seq peaks BED files to the columns required for 
 LD score analysis (only chromosome, start, end columns are needed,
 for a total of three columns)
 
 ### Lift over ATAC-seq peaks from hg38 to hg19
-bash scripts/liftover_singlecell.sh
+
+`bash scripts/liftover_singlecell.sh`
 
 Lift over ATAC-seq peaks from hg38 to hg19; obviously not necessary
 if the peaks are already in hg19 form.
 
 ### Annotate SNPs by which tissues they belong to
-Rscript scripts/tissue_specific_snp_annotation_single_cell.R
+
+`Rscript scripts/tissue_specific_snp_annotation_single_cell.R`
 
 SNPs to be used in LD score regression are marked with all the tissues in which
 they overlap with an ATAC-seq peak.
 
 ### Generate LD scores for each single cell type
-bash scripts/ldscore_singlecell.sh
+
+`bash scripts/ldscore_singlecell.sh`
 
 Generates LD scores for every single cell type, one at a time.
 
 ### Perform LD score regression to partition heritability
-bash scripts/cell_type_spe_regression.sh
+
+`bash scripts/cell_type_spe_regression.sh`
 
 The actual step of partitioning heritability.
 
 ### Plot final enrichments
-Rscript scripts/plot_cellspecific_enrichments.R
+
+`Rscript scripts/plot_cellspecific_enrichments.R`
 
 Making the plots shown in the paper.
 
