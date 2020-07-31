@@ -13,6 +13,26 @@
 ####################################################################
 
 
+# Other cluster level
+
+for cluster in `seq 1 24`; do
+
+	echo $cluster
+
+	# Format the IDR peaks files
+	zcat data/atac-seq/ClusterSpecificIDROptimalPeaksBedtoolsMerge/Cluster$cluster.idr.optimal.narrowPeak.gz | cut -f1,2,3 | sort -k1,1 -k2,2n > data/atac-seq/ClusterSpecificIDROptimalPeaksBedtoolsMerge/Cluster$cluster.idr.col-subs.narrowPeak
+	bgzip -f data/atac-seq/ClusterSpecificIDROptimalPeaksBedtoolsMerge/Cluster$cluster.idr.col-subs.narrowPeak
+
+	# Format the overlap peaks files
+	zcat data/atac-seq/ClusterSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/Cluster$cluster.optimal_peak.narrowPeak.gz | cut -f1,2,3 | sort -k1,1 -k2,2n > data/atac-seq/ClusterSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/Cluster$cluster.optimal_peak.col-subs.narrowPeak
+	bgzip -f data/atac-seq/ClusterSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/Cluster$cluster.optimal_peak.col-subs.narrowPeak
+	
+done
+
+
+
+
+
 
 # Cluster level
 

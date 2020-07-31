@@ -57,8 +57,28 @@ export cluster_frags_overlap_out_dir='output/ld_score_regression/ldscore_merged/
 export cluster_frags_idr_out_dir='output/ld_score_regression/ldscore_merged/cluster_frags/idr_peaks/'
 
 for x in C10 C11 C12 NeuronC13 NeuronC14 NeuronC15 NeuronC17 NeuronC18 NeuronC19 NeuronC20 NeuronC21 NeuronC24 NeuronC25 NeuronC26 NeuronC27 NeuronC28 NeuronC29 NeuronC2 NeuronC30 NeuronC3 NeuronC6 NeuronC7 NeuronC8 NeuronC9;
-for x in C11;
 do 	
 	seq 1 22 | parallel -j 1  "python tools/ldsc/ldsc.py --l2 --bfile $plink_dir/1000G.mac5eur.{} --ld-wind-cm 1 --annot $cluster_frags_overlap_annot_dir/$x.chr{}.annot --out $cluster_frags_overlap_out_dir/$x.chr{} --print-snps $hapmap_dir/hm.{}.snp"
 	seq 1 22 | parallel -j 1  "python tools/ldsc/ldsc.py --l2 --bfile $plink_dir/1000G.mac5eur.{} --ld-wind-cm 1 --annot $cluster_frags_idr_annot_dir/$x.chr{}.annot --out $cluster_frags_idr_out_dir/$x.chr{} --print-snps $hapmap_dir/hm.{}.snp"
 done
+
+############################################################
+# Cell type ALL clustered annotations,
+# first for naive optimal peak calls and then for IDR
+############################################################
+
+# Load intermediate pre-processed files
+export cluster_frags_overlap_complete_annot_dir='output/ld_score_regression/tissue_specific_snp_annotation/ClusterSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/'
+export cluster_frags_idr_complete_annot_dir='output/ld_score_regression/tissue_specific_snp_annotation/ClusterSpecificIDROptimalPeaksBedtoolsMerge/'
+
+# Output directory locations
+export cluster_frags_overlap_complete_out_dir='output/ld_score_regression/ldscore_merged/ClusterSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/'
+export cluster_frags_idr_complete_out_dir='output/ld_score_regression/ldscore_merged/ClusterSpecificIDROptimalPeaksBedtoolsMerge/'
+
+for x in `seq 1 24`;
+do 	
+	seq 1 22 | parallel -j 1  "python tools/ldsc/ldsc.py --l2 --bfile $plink_dir/1000G.mac5eur.{} --ld-wind-cm 1 --annot $cluster_frags_overlap_complete_annot_dir/Cluster$x.chr{}.annot --out $cluster_frags_overlap_complete_out_dir/Cluster$x.chr{} --print-snps $hapmap_dir/hm.{}.snp"
+	seq 1 22 | parallel -j 1  "python tools/ldsc/ldsc.py --l2 --bfile $plink_dir/1000G.mac5eur.{} --ld-wind-cm 1 --annot $cluster_frags_idr_complete_annot_dir/Cluster$x.chr{}.annot --out $cluster_frags_idr_complete_out_dir/Cluster$x.chr{} --print-snps $hapmap_dir/hm.{}.snp"
+done
+
+

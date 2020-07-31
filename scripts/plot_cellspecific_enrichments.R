@@ -39,16 +39,21 @@ traitnames = c(traitnames, "schizophrenia")
 
 
 # Folders containining partitioned heritability results
-ph_folders = c("output/ld_score_regression/partition_heritability_merged/group_frags/idr_peaks/",
-	       "output/ld_score_regression/partition_heritability_merged/CelltypeSpecificIdr/nodoublets/",
-	       "output/ld_score_regression/partition_heritability_merged/cluster_frags/idr_peaks/")#,
+ph_folders = c(
+	       "output/ld_score_regression/partition_heritability_merged/ClusterSpecificIDROptimalPeaksBedtoolsMerge/",
+	       "output/ld_score_regression/partition_heritability_merged/ClusterSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/")#,
+	       #"output/ld_score_regression/partition_heritability_merged/group_frags/idr_peaks/",
+	       #"output/ld_score_regression/partition_heritability_merged/CelltypeSpecificIdr/nodoublets/",
+	       #"output/ld_score_regression/partition_heritability_merged/cluster_frags/idr_peaks/")#,
 	       #"output/ld_score_regression/partition_heritability_merged/group_frags/overlap_peaks/",
 	       #"output/ld_score_regression/partition_heritability_merged/cluster_frags/overlap_peaks/",
 	       #"output/ld_score_regression/partition_heritability_merged/CelltypeSpecificNaiveOverlap/nodoublets/")
 
-set_names = c("group_idr",
-	      "original_idr",
-	      "cluster_idr")#,
+set_names = c("all_cluster_idr",
+	      "all_cluster_overlap")
+	      #"group_idr",
+	      #"original_idr",
+	      #"cluster_idr")#,
 	      #"group_overlap",
 	      #"cluster_overlap",
 	      #"original_overlap")

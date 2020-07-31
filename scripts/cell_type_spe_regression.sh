@@ -110,4 +110,20 @@ do
 	$gwas \
 	$config_dir/cluster_frags/overlap_peaks/CelltypeSpecific.cluster.overlap.ldcts
 
+	# IDR ALL cluster peaks
+	cell_type_SPE \
+	$tissue_specific_annotation_dir/ClusterSpecificIDROptimalPeaksBedtoolsMerge/ \
+	$out_dir/ClusterSpecificIDROptimalPeaksBedtoolsMerge/ \
+	`basename $gwas` \
+	$gwas \
+	$config_dir/ClusterSpecificIDROptimalPeaksBedtoolsMerge/CelltypeSpecific.cluster.idr.ldcts
+
+	# Overlap ALL cluster peaks
+	cell_type_SPE \
+	$tissue_specific_annotation_dir/ClusterSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/ \
+	$out_dir/ClusterSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/ \
+	`basename $gwas` \
+	$gwas \
+	$config_dir/ClusterSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/CelltypeSpecific.cluster.overlap.ldcts
+
 done

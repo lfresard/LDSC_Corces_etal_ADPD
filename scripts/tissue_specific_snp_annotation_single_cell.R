@@ -35,6 +35,9 @@ annotate = function(bim,peak,tissues){
 }
 
 
+if (FALSE)
+{
+
 ############################################################
 # Cell type specific annotations,
 # first for IDR peaks and then for naive optimal peak calls
@@ -179,5 +182,56 @@ for (i in 1:length(tissues)){
 		fwrite(out,out_fn,sep='\t')
 	}
 }
+
+}
+
+############################################################
+# Cell type FULL clustered annotations,
+# first for IDR peaks and then for naive optimal peak calls
+############################################################
+
+tissues = paste0("Cluster", seq(1,24))
+
+#Idr Optimal Peaks
+peak_dir = 'data/atac-seq/ClusterSpecificIDROptimalPeaksBedtoolsMerge/'
+out_dir =  'output/ld_score_regression/tissue_specific_snp_annotation/ClusterSpecificIDROptimalPeaksBedtoolsMerge/'
+if (!dir.exists(out_dir)) {dir.create(out_dir)}
+for (i in 1:length(tissues)){
+	peak_fn = paste0(peak_dir, tissues[i],'.idr.narrowPeak.hg19.bed.gz')
+	peak = fread(peak_fn,select = 1:3, col.names = c('chr','start','end'))
+	peak$tissue = tissues[i]
+	peak[,chr:=as.integer(str_replace(chr,'chr',''))]
+	bim = read_bim(plink_dir)
+
+	annot = annotate(bim,peak,tissues[i])
+
+	for (j in 1:22){
+		out = annot[CHR == j]
+		out_fn = sprintf('%s/%s.chr%s.annot',out_dir,tissues[i],j)
+		fwrite(out,out_fn,sep='\t')
+	}
+}
+
+
+# Overlap Peaks
+peak_dir = 'data/atac-seq/ClusterSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/'
+out_dir =  'output/ld_score_regression/tissue_specific_snp_annotation/ClusterSpecificNaiveOverlapOptimalPeaksBedtoolsMerge/'
+if (!dir.exists(out_dir)) {dir.create(out_dir)}
+for (i in 1:length(tissues)){
+	peak_fn = paste0(peak_dir, tissues[i],'.overlap.narrowPeak.hg19.bed.gz')
+	peak = fread(peak_fn,select = 1:3, col.names = c('chr','start','end'))
+	peak$tissue = tissues[i]
+	peak[,chr:=as.integer(str_replace(chr,'chr',''))]
+	bim = read_bim(plink_dir)
+
+	annot = annotate(bim,peak,tissues[i])
+
+	for (j in 1:22){
+		out = annot[CHR == j]
+		out_fn = sprintf('%s/%s.chr%s.annot',out_dir,tissues[i],j)
+		fwrite(out,out_fn,sep='\t')
+	}
+}
+
 
 
